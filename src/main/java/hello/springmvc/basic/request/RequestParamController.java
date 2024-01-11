@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import hello.springmvc.basic.HelloData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -96,12 +98,18 @@ public class RequestParamController {
 	@ResponseBody
 	//ok를 meesagebody에 넣어버림 => RestController와 같은 역할
 	@RequestMapping("/model-attribute-v1")
-	public String modelAttributeV1(
-			//key가 하나에 value가 여러개일 경우!! => 이걸 쓰는걸 권장 , Map은 파라미터의 값이 한개일 때
-			@RequestParam MultiValueMap<String, Object> paramMap)
-			{
+	public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+		log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
 		
-		log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
 		return "ok";
-	}
+		}
+	
+	@ResponseBody
+	//ok를 meesagebody에 넣어버림 => RestController와 같은 역할
+	@RequestMapping("/model-attribute-v2")
+	public String modelAttributeV12(HelloData helloData) {
+		log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+		
+		return "ok";
+		}
 	}
